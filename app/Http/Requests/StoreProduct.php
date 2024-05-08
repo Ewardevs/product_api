@@ -27,8 +27,8 @@ class StoreProduct extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required",
-            "description" => "required",
+            "name" => "required|string",
+            "description" => "required|string",
             "price" => "required",
             "stock" => "required"
 
