@@ -46,6 +46,12 @@ class ProductController extends Controller
         return $product;
     }
 
+    public function showByName($name)
+    {
+        $product = Product::where("name", $name)->first();
+        return $product;
+    }
+
     public function update(UpdateProduct $request, Product $product)
     {
         $validatedData = $request->validated();
