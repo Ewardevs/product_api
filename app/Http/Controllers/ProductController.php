@@ -10,12 +10,12 @@ use PhpOption\None;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function getAllProduct()
     {
         return Product::all();
     }
 
-    public function store(StoreProduct $request)
+    public function createProduct(StoreProduct $request)
     {
 
         $validatedData = $request->validated();
@@ -32,13 +32,13 @@ class ProductController extends Controller
         return response()->json($product, 201);
     }
 
-    public function show($id)
+    public function getById($id)
     {
         $product = Product::find($id);
 
         if (!$product) {
             $data = [
-                'message' => 'Producto no encontrado',
+                'message' => 'Product not found',
                 "status" => 404
             ];
             return response()->json($data, 404);
@@ -46,9 +46,17 @@ class ProductController extends Controller
         return $product;
     }
 
-    public function showByName($name)
+    public function showByName(Request $request)
     {
+        $name = $request->name;
         $product = Product::where("name", $name)->first();
+        if (!$product) {
+            $data = [
+                'message' => 'Product not found',
+                "status" => 404
+            ];
+            return response()->json($data, 404);
+        }
         return $product;
     }
 
@@ -65,7 +73,7 @@ class ProductController extends Controller
         return response()->json($product, 200);
     }
 
-    public function destroy(Product $product)
+    public function deleteById(Product $product)
     {
         $product->delete();
         if (!$product) {
