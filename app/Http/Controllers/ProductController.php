@@ -23,7 +23,7 @@ class ProductController extends Controller
 
         // Si hay claves no permitidas, devuelve un error
         if (!empty($extraKeys)) {
-            return response()->json(['error' => 'Campos no válidos: ' . implode(', ', $extraKeys)], 422);
+            return response()->json(['error' => 'Unvalied fields:  ' . implode(', ', $extraKeys)], 422);
         }
 
 
@@ -58,7 +58,7 @@ class ProductController extends Controller
         $extraFields = array_diff(array_keys($request->all()), array_keys($validatedData));
 
         if (!empty($extraFields)) {
-            return response()->json(['error' => 'Campos no válidos: ' . implode(', ', $extraFields)], 422);
+            return response()->json(['error' => 'Unvalied fields: ' . implode(', ', $extraFields)], 422);
         }
 
         $product->update($validatedData);
@@ -70,11 +70,11 @@ class ProductController extends Controller
         $product->delete();
         if (!$product) {
             $data = [
-                'message' => 'Producto no encontrado',
+                'message' => 'Product not found',
                 "status" => 404
             ];
             return response()->json($data, status: 404);
         }
-        return response()->json(["message" => "Producto eliminado"]);
+        return response()->json(["message" => "Product deleted"]);
     }
 }
