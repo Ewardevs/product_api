@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Venta extends Model
 {
     use HasFactory;
-    protected $fillable = ['cliente', 'productos', "total"];
+    protected $fillable = ['cliente', 'productos'];
 
     protected $casts = [
         'productos' => 'array', // Esto es importante para que Laravel convierta automáticamente la columna 'productos' en un array al guardar y recuperar los datos.

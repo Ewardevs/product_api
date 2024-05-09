@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Ventas;
 use App\Models\Product;
 use App\Models\Venta;
 use Illuminate\Http\Request;
 
 class VentasController extends Controller
 {
-    public function createSale(Request $request)
+    public function createSale(Ventas $request)
     {
         // aqui obtenemos los productos enviado
         $products = $request->venta["productos"];
@@ -31,7 +32,7 @@ class VentasController extends Controller
         foreach ($products as $product) {
             // buscamos los productos en la base de datos y agregamos a la plantilla
             $result = Product::find($product["id"]);
-            if ($result->stock <= 0) {
+            if ($result->stock <= 0 || $result->stock < $product["cantidad"]) {
                 $errorMessage = ["productos sin stock" => []];
                 array_push($errorMessage["productos sin stock"], ["name" => $result->name]);
                 return response()->json($errorMessage, status: 200);
@@ -44,9 +45,18 @@ class VentasController extends Controller
                 "id" => $result->id,
                 "name" => $result->name,
                 "cantidad" => $product["cantidad"],
-                // "unit_price" => $result->price,
-                "subtotal" => round($result->price * $product["cantidad"], 2)
+                "unit_price" => $result->price,
+                "subtotal" => 0
             ];
+            $realdescuento = 0;
+            foreach ($descuentos as $descuento) {
+                if ($result->descuento == true) {
+                    $realdescuento += $descuento["valor"];
+                    $saleProducts["unit_price"] = $result->price - (($result->price / 100) * $realdescuento);
+                }
+            }
+            $saleProducts["subtotal"] = $saleProducts["unit_price"] * $saleProducts["cantidad"];
+
             // guardamos datos del total al modelo y lo agregamos a la plantilla
             $venta->total += round($result->price * $product["cantidad"], 2);
             round($sale["total"] += $result->price * $product["cantidad"], 3);
@@ -55,12 +65,9 @@ class VentasController extends Controller
             array_push($sale["productos"], $saleProducts);
         }
         //aca calculamos el descuento
-        $descuentototal = 0;
-        foreach ($descuentos as $descuento) {
-            $descuentototal += $descuento["valor"];
-        }
+
         array_push($sale["descuentos"], $descuentos);
-        $sale["total_con_descuento"] = $sale["total"] - $descuentototal;
+        $sale["total_con_descuento"] = $sale["total"];
 
 
         $venta->productos = $sale["productos"];

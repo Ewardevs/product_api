@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("image_url");
             $table->double("price");
             $table->double("stock");
+            $table->boolean("descuento")->default(true);
             $table->timestamps();
         });
     }

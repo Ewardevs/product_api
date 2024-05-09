@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\Product;
 
-class StoreProduct extends FormRequest
+class Ventas extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,13 +29,21 @@ class StoreProduct extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string",
-            "description" => "required|string",
-            "price" => "required",
-            "image_url" => "required|string",
-            "descuento" => "required|boolean",
-            "stock" => "required"
+            "venta.cliente" => "required",
+            "venta.productos" => "required",
+            "venta.descuento" => "sometimes",
+            'venta.productos.*.id' => [
+                'required',
+                'numeric',
+                Rule::exists(Product::class, 'id'), // Valida que el id del producto exista en la tabla de productos
+            ],
+        ];
+    }
 
+    public function messages(): array
+    {
+        return [
+            "venta.productos.*id.exists" => "El producto seleccionado con ID :value no existe."
         ];
     }
 
