@@ -15,7 +15,7 @@ use PhpOption\None;
  *             description="Descripcion"
  * )
  *
- * @OA\Server(url="http://127.0.0.1:8000")
+ * @OA\Server(url="https://productapi-production-a124.up.railway.app/")
  */
 class ProductController extends Controller
 {
