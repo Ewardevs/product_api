@@ -203,19 +203,23 @@
                                         },
                                         "name": {
                                             "type": "string",
-                                            "example": "asd"
+                                            "example": "producto"
                                         },
-                                        "descripcion": {
+                                        "description": {
                                             "type": "string",
-                                            "example": "asd"
+                                            "example": "descripcion"
                                         },
-                                        "created_at": {
+                                        "image_url": {
                                             "type": "string",
-                                            "example": "2023-02-23T00:09:16.000000Z"
+                                            "example": "url"
                                         },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "2023-02-23T12:33:45.000000Z"
+                                        "price": {
+                                            "type": "number",
+                                            "example": "5000"
+                                        },
+                                        "stock": {
+                                            "type": "number",
+                                            "example": "20"
                                         }
                                     },
                                     "type": "object"
@@ -232,6 +236,156 @@
                                         "message": {
                                             "type": "string",
                                             "example": "No query results for model [App\\\\Models\\\\Cliente] #id"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Eliminar Producto",
+                "operationId": "e6c610ded3156442a650308734b8e188",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product deleted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{product}": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Actualizar la información de un producto",
+                "operationId": "d8f8f68cbee2f6a5c291d7940a3dc4ed",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Producto editado",
+                                    "price": 1000
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Producto editado"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "descripcion"
+                                        },
+                                        "image_url": {
+                                            "type": "string",
+                                            "example": "url"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": "1000"
+                                        },
+                                        "stock": {
+                                            "type": "number",
+                                            "example": "20"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "UNPROCESSABLE CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "'Unvalied fields: "
                                         }
                                     },
                                     "type": "object"

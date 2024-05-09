@@ -190,10 +190,11 @@ class ProductController extends Controller
      *         description="OK",
      *         @OA\JsonContent(
      *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="name", type="string", example="asd"),
-     *              @OA\Property(property="descripcion", type="string", example="asd"),
-     *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
-     *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+     *              @OA\Property(property="name", type="string", example="producto"),
+     *              @OA\Property(property="description", type="string", example="descripcion"),
+     *              @OA\Property(property="image_url", type="string", example="url"),
+     *              @OA\Property(property="price", type="number", example="5000"),
+     *              @OA\Property(property="stock", type="number", example="20")
      *         )
      *     ),
      *      @OA\Response(
@@ -240,6 +241,62 @@ class ProductController extends Controller
         return response()->json($data, status: 200);
     }
 
+    /**
+     * Actualizar la información de un producto
+     * @OA\Put (
+     *     path="/products/{product}",
+     *     tags={"Products"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="name",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="price",
+     *                          type="string"
+     *                      )
+     *                 ),
+     *                 example={
+     *                     "name": "Producto editado",
+     *                     "price": 1000
+     *                }
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="success",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="number", example=1),
+     *              @OA\Property(property="name", type="string", example="Producto editado"),
+     *              @OA\Property(property="description", type="string", example="descripcion"),
+     *              @OA\Property(property="image_url", type="string", example="url"),
+     *              @OA\Property(property="price", type="number", example="1000"),
+     *              @OA\Property(property="stock", type="number", example="20")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="UNPROCESSABLE CONTENT",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="'Unvalied fields: "),
+     *              
+     *          )
+     *      )
+     * )
+     */
+
     public function update(UpdateProduct $request, Product $product)
     {
         $validatedData = $request->validated();
@@ -256,16 +313,48 @@ class ProductController extends Controller
         return response()->json($data, 200);
     }
 
-    public function deleteById(Product $product)
+    /**
+     * Eliminar Producto
+     * @OA\Delete (
+     *     path="/api/products/{id}",
+     *     tags={"Products"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="ok",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Product deleted"),
+     *             )
+     *          ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="NOT FOUND",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="error"),
+     *          )
+     *      )
+     * )
+     */
+
+    public function deleteById($id)
     {
-        $product->delete();
+        $product = Product::find($id);
+
         if (!$product) {
             $data = [
                 'message' => 'Product not found',
-                "status" => 404
+                'status' => 404
             ];
-            return response()->json($data, status: 404);
+            return response()->json($data, 404);
         }
+
+        $product->delete();
+
         return response()->json(["message" => "Product deleted"]);
     }
 }

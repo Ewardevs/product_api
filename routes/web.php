@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 |sadasadasd
 */
 
-Route::redirect('/', "/api/products");
+Route::redirect('/', "/api/documentation");
+Route::redirect('/api', "/api/documentation");
