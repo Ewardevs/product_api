@@ -15,15 +15,16 @@ use App\Http\Controllers\ProductController;
 |
 */
 
+Route::controller(ProductController::class)->group(function () {
+    Route::get("/products", "getAllProduct");
 
-Route::get("/products", [ProductController::class, "getAllProduct"]);
+    Route::post("/products", "createProduct");
 
-Route::post("/products", [ProductController::class, "createProduct"]);
+    Route::get("/products/showByName", "showByName");
 
-Route::get("/products/showByName", [ProductController::class, "showByName"]);
+    Route::get("/products/{product}", "getById");
 
-Route::get("/products/{product}", [ProductController::class, "getById"]);
+    Route::put("/products/{product}", "update");
 
-Route::put("/products/{product}", [ProductController::class, "update"]);
-
-Route::delete("/products/{product}", [ProductController::class, "deleteById"]);
+    Route::delete("/products/{product}", "deleteById");
+});

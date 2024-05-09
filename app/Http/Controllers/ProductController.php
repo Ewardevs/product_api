@@ -12,7 +12,11 @@ class ProductController extends Controller
 {
     public function getAllProduct()
     {
-        return Product::all();
+        $product =  Product::all();
+        $data = [
+            "product" => $product
+        ];
+        return response()->json($data, status: 200);
     }
 
     public function createProduct(StoreProduct $request)
@@ -28,8 +32,11 @@ class ProductController extends Controller
 
 
         $product = Product::create($validatedData);
+        $data = [
+            "product" => $product
+        ];
 
-        return response()->json($product, 201);
+        return response()->json($data, 201);
     }
 
     public function getById($id)
@@ -43,7 +50,10 @@ class ProductController extends Controller
             ];
             return response()->json($data, 404);
         }
-        return $product;
+        $data = [
+            "product" => $product
+        ];
+        return response()->json($data, status: 200);
     }
 
     public function showByName(Request $request)
@@ -57,7 +67,10 @@ class ProductController extends Controller
             ];
             return response()->json($data, 404);
         }
-        return $product;
+        $data = [
+            "product" => $product
+        ];
+        return response()->json($data, status: 200);
     }
 
     public function update(UpdateProduct $request, Product $product)
@@ -70,7 +83,10 @@ class ProductController extends Controller
         }
 
         $product->update($validatedData);
-        return response()->json($product, 200);
+        $data = [
+            "product" => $product
+        ];
+        return response()->json($data, 200);
     }
 
     public function deleteById(Product $product)
