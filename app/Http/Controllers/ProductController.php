@@ -6,7 +6,6 @@ use App\Http\Requests\StoreProduct;
 use App\Http\Requests\UpdateProduct;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use PhpOption\None;
 
 /**
  * @OA\Info(
