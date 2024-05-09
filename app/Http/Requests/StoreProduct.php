@@ -30,6 +30,7 @@ class StoreProduct extends FormRequest
             "name" => "required|string",
             "description" => "required|string",
             "price" => "required",
+            "image_url" => "required|string",
             "stock" => "required"
 
         ];

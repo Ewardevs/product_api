@@ -44,7 +44,7 @@ class VentasController extends Controller
                 "id" => $result->id,
                 "name" => $result->name,
                 "cantidad" => $product["cantidad"],
-                "unit_price" => $result->price,
+                // "unit_price" => $result->price,
                 "subtotal" => round($result->price * $product["cantidad"], 2)
             ];
             // guardamos datos del total al modelo y lo agregamos a la plantilla

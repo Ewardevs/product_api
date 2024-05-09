@@ -8,8 +8,67 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use PhpOption\None;
 
+/**
+ * @OA\Info(
+ *             title="Productos", 
+ *             version="1.0",
+ *             description="Descripcion"
+ * )
+ *
+ * @OA\Server(url="http://127.0.0.1:8000")
+ */
 class ProductController extends Controller
 {
+    /**
+     * Listado de productos
+     * @OA\Get (
+     *     path="/api/products",
+     *     tags={"Products"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="ok",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 type="array",
+     *                 property="rows",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="nombre",
+     *                         type="string",
+     *                         example="computadors"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="descricion",
+     *                         type="string",
+     *                         example="descripcion1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="image_url",
+     *                         type="string",
+     *                         example="sdfsdfad"
+     *                     ),
+     *                      @OA\Property(
+     *                         property="price",
+     *                         type="number",
+     *                         example="5000"
+     *                     ),
+     *                      @OA\Property(
+     *                         property="stock",
+     *                         type="number",
+     *                         example="50"
+     *                     ),
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
     public function getAllProduct()
     {
         $product =  Product::all();
@@ -18,6 +77,82 @@ class ProductController extends Controller
         ];
         return response()->json($data, status: 200);
     }
+
+    /**
+     * Registrar la información de un Producto
+     * @OA\Post (
+     *     path="/api/products",
+     *     tags={"Products"},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="name",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="description",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="image_url",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="price",
+     *                          type="number"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="stock",
+     *                          type="number"
+     *                      )
+     *                 ),
+     *                 example={
+     *                     "name":"producto",
+     *                     "description":"descripcion",
+     *                     "image_url":"url",
+     *                     "price":"5000",
+     *                     "stock":"20"
+     *                }
+     *             )
+     *         )
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="CREATED",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="number", example=1),
+     *              @OA\Property(property="name", type="string", example="producto"),
+     *              @OA\Property(property="description", type="string", example="descripcion"),
+     *              @OA\Property(property="image_url", type="string", example="url"),
+     *              @OA\Property(property="price", type="number", example="5000"),
+     *              @OA\Property(property="stock", type="number", example="20")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="UNPROCESSABLE CONTENT",
+     *          @OA\JsonContent(
+     *             @OA\Property(
+     *                 type="array",
+     *                 property="errors",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="error",
+     *                         type="number",
+     *                         example="The price field is required."
+     *                     )
+     *                 )
+     *             )
+     *           
+     *          )
+     *      )
+     * )
+     */
 
     public function createProduct(StoreProduct $request)
     {
@@ -38,6 +173,38 @@ class ProductController extends Controller
 
         return response()->json($data, 201);
     }
+
+    /**
+     * Mostrar la información de un Producto
+     * @OA\Get (
+     *     path="/api/products/{id}",
+     *     tags={"Products"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="id", type="number", example=1),
+     *              @OA\Property(property="name", type="string", example="asd"),
+     *              @OA\Property(property="descripcion", type="string", example="asd"),
+     *              @OA\Property(property="created_at", type="string", example="2023-02-23T00:09:16.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", example="2023-02-23T12:33:45.000000Z")
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="NOT FOUND",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="No query results for model [App\\Models\\Cliente] #id"),
+     *          )
+     *      )
+     * )
+     */
 
     public function getById($id)
     {
