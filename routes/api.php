@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VentasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,10 @@ Route::controller(ProductController::class)->group(function () {
     Route::put("/products/{product}", "update");
 
     Route::delete("/products/{product}", "deleteById");
+});
+
+Route::controller(VentasController::class)->group(function () {
+    Route::post("/createSale", "createSale");
+
+    Route::get("/sales", "showSales");
 });
