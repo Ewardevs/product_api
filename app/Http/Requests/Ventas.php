@@ -43,7 +43,7 @@ class Ventas extends FormRequest
     public function messages(): array
     {
         return [
-            "venta.productos.*id.exists" => "El producto seleccionado con ID :value no existe."
+            "venta.productos.*.id.exists" => "El producto seleccionado con ID :value no existe."
         ];
     }
 
