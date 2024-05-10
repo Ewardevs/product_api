@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://127.0.0.1:8000"
+            "url": "https://productapi-production-a124.up.railway.app/"
         }
     ],
     "paths": {
