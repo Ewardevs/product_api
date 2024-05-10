@@ -30,6 +30,8 @@ class UpdateProduct extends FormRequest
             'description' => 'nullable|string|filled',
             'price' => 'numeric|min:0|filled', // Añade 'sometimes' para indicar que el campo es opcional
             'stock' => 'numeric|min:0|filled',
+            'descuento' => 'boolean|min:0|filled',
+            'image_url' => 'string|min:0|filled',
         ];
     }
     protected function failedValidation(Validator $validator)

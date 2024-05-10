@@ -17,17 +17,17 @@ use App\Http\Controllers\VentasController;
 */
 
 Route::controller(ProductController::class)->group(function () {
-    Route::get("/products", "getAllProduct");
+    Route::get("/products", "getAllProduct")->name('api.getAllProduct');
 
-    Route::post("/products", "createProduct");
+    Route::post("/products", "createProduct")->name('api.createProduct');
 
-    Route::get("/products/showByName", "showByName");
+    Route::get("/products/showByName", "showByName")->name('api.showByName');
 
-    Route::get("/products/{product}", "getById");
+    Route::get("/products/{product}", "getById")->name('api.getById');
 
-    Route::put("/products/{product}", "update");
+    Route::put("/products/{product}", "update")->name('api.update');
 
-    Route::delete("/products/{product}", "deleteById");
+    Route::delete("/products/{product}", "deleteById")->name('api.deleteById');
 });
 
 Route::controller(VentasController::class)->group(function () {
